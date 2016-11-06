@@ -84,8 +84,17 @@ import {actionTest} from 'redux-ava'
 
 import {openMenu, getUser} from '../actions'
 
-test('openMenu action', actionTest(openMenu, null, {type: 'OPEN_MENU'}))
+// Without parameter
+test('openMenu action', actionTest(openMenu, {type: 'OPEN_MENU'}))
+
+// With single parameter
 test('getUser action', actionTest(getUser, 1, {type: 'GET_USER', id: 1}))
+
+// With multiple parameters
+test('showArtist action', actionTest(
+  showArtist, 'bob-dylan', 'Bob Dylan',
+  {type: 'SHOW_ARTIST', slug: 'bob-dylan', name: 'Bob Dylan'}
+))
 ```
 
 And now a reducer:
