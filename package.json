@@ -16,8 +16,7 @@
     "node": ">=4.2.0"
   },
   "scripts": {
-    "test": "standard --verbose | snazzy && ava --verbose",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "test": "standard --verbose | snazzy && ava --verbose"
   },
   "files": [
     "index.js",
@@ -36,8 +35,6 @@
   },
   "devDependencies": {
     "ava": "^0.16.0",
-    "cz-conventional-changelog": "*",
-    "semantic-release": "*",
     "snazzy": "*",
     "standard": "^8.0.0"
   },
@@ -46,10 +43,5 @@
       "test.js",
       "test/**"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
