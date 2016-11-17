@@ -34,7 +34,7 @@
     "immutable": "^3.8.1"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.17.0",
     "snazzy": "*",
     "standard": "^8.0.0"
   },
