@@ -33,7 +33,8 @@ function reducer(state, action) {
   
   switch (action.type) {
     case testAction:
-      const { name, age } = action
+      const name = action.name
+      const age = action.age
       return Object.assign({}, state, { name, age })
     case loadingAction:
       return Object.assign({}, state, { isLoading: true })
