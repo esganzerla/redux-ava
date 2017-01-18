@@ -1,3 +1,4 @@
+
 # redux-ava
 
 > Write [AVA](https://github.com/sindresorhus/ava) tests for [redux](https://github.com/reactjs/redux) pretty quickly
@@ -14,63 +15,28 @@ npm install --save-dev redux-ava
 
 ## API
 
+*Note:* If you are using a dispatch inside the action (as with redux-thunk) you should set the test to be async. 
+
 ### actionTest(actionCreator, data, type, [description])
 
-#### actionCreator
+| Param         | Type                | Description                         |
+| ------------- | ------------------- | ----------------------------------- |
+| actionCreator | `function`          | The action creator you want to test. |
+| data          | any                 | The data your action creator function takes in. If it doesn't take any data, use `null`. |
+| type          | `object` or `array` | The type you expect your action creator to return. It you are using a dispatch inside the action (as with redux-thunk) should be an array with expected types. |
+| description   | `string`            | Optional test description. |
 
-Type: `function`
-
-The action creator you want to test
-
-#### data
-
-Type: anything or `null`
-
-The data your action creator function takes in. If it doesn't take any data, use `null`.
-
-#### type
-
-Type: `object`
-
-The type you expect your action creator to return.
-
-#### description
-
-Type: `string`
-
-Optional test description.
 
 ### reducerTest(reducer, stateBefore, action, stateAfter, [description])
 
-#### reducer
+| Param         | Type          | Description                         |
+| ------------- | ------------- | ----------------------------------- |
+| reducer       | `function`    | The reducer you want to test. |
+| stateBefore   | `object`      | The state you expect before the reducer is ran. |
+| action        | `object`      | The action you want to give to the reducer. This is different from `actionTest` in that you pass an action object, not an action creator function. You may use a call to your action creator function as an argument provided it returns an action object. See the examples below. |
+| stateAfter    | `object` or `array` | The state you expect after the reducer is ran. It you are using a dispatch inside the action (as with redux-thunk) should be an array with expected states. |
+| description   | `string`      | Optional test description. |
 
-Type: `function`
-
-The reducer you want to test.
-
-#### stateBefore
-
-Type: `object`
-
-The state you expect before the reducer is ran.
-
-#### action
-
-Type: `object`
-
-The action you want to give to the reducer. This is different from `actionTest` in that you pass an action object, not an action creator function. You may use a call to your action creator function as an argument provided it returns an action object. See the examples below.
-
-#### stateAfter
-
-Type: `object`
-
-The state you expect after the reducer is ran.
-
-#### description
-
-Type: `string`
-
-Optional test description.
 
 ## Examples
 
@@ -82,7 +48,7 @@ Let's test an action creator:
 import test from 'ava'
 import {actionTest} from 'redux-ava'
 
-import {openMenu, getUser} from '../actions'
+import {openMenu, getUser, showArtist, loadUsers} from '../actions'
 
 // Without parameter
 test('openMenu action', actionTest(openMenu, {type: 'OPEN_MENU'}))
@@ -95,6 +61,18 @@ test('showArtist action', actionTest(
   showArtist, 'bob-dylan', 'Bob Dylan',
   {type: 'SHOW_ARTIST', slug: 'bob-dylan', name: 'Bob Dylan'}
 ))
+
+// With redux-thunk dispatch inside action
+test('loadUsers', async t => {
+  actionTest(
+    loadUsers,
+    [ // When using thunk you should specify types inside an array
+      { type: 'IS_LOADING' },
+      { type: 'SET_USERS', users: [...] },
+      { type: 'IS_LOADED' }
+    ]
+  )(t)
+})
 ```
 
 And now a reducer:
@@ -104,7 +82,7 @@ import test from 'ava'
 import {reducerTest} from 'redux-ava'
 
 import app from '../reducers'
-import {openMenu, getUser} from '../actions'
+import {openMenu, getUser, loadUsers} from '../actions'
 
 test('app reducer handles openMenu', reducerTest(
   app,
@@ -119,6 +97,18 @@ test('app reducer handles getUser', reducerTest(
   getUser(1),
   {menuOpen: false, user: 1}
 ))
+
+// With redux-thunk dispatch inside action
+test('loadUsers', async t => {
+  actionTest(
+    loadUsers,
+    [ // When using thunk you should specify all expected returned states
+      { isLoading: true },
+      { isLoading: true, users: [...] },
+      { users: [...] }
+    ]
+  )
+})(t)
 ```
 
 ## License
