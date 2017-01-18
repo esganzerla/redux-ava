@@ -18,13 +18,13 @@ const testSpy = () => ({
   }
 })
 
-function reducer(state = {}, action) {
+function reducer(state, action) {
+  state = state || {}
+  
   switch (action.type) {
     case testAction:
       const { name, age } = action
       return Object.assign({}, state, { name, age })
-    case loadingAction:
-      return Object.assign({}, state, { isLoading: true })
     default:
       return state
   }
