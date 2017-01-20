@@ -1,17 +1,19 @@
-const test = require('ava')
-const m = require('../../..')
-const reducerTest = m.reducerTest
-
-const utils = require('../_utils')
-const testSpy = utils.testSpy
-const reducer = utils.reducer
-const testAction = utils.testAction
-const actionCreator = utils.actionCreator
+import test from 'ava'
+import testSpy from '../_utils/spy'
+import { reducerTest } from '../../../'
+import { actionCreator } from '../_utils/actions'
+import reducer from '../_utils/reducers'
+import ActionTypes from '../_utils/constants'
 
 test('without parameters', t => {
   const expected = { name: 'John Doe', age: 42 }
   const action = actionCreator()
-  const tester = reducerTest(reducer, {}, action, expected, 'has description')
+  const tester = reducerTest({
+    reducer,
+    action,
+    expected,
+    description: 'has description'
+  })
 
   const spy = testSpy()
   tester(spy)
@@ -25,7 +27,12 @@ test('without parameters', t => {
 test('single parameter', t => {
   const expected = { name: 'Jane Doe', age: 42}
   const action = actionCreator('Jane Doe')
-  const tester = reducerTest(reducer, {}, action, expected, 'has description')
+  const tester = reducerTest({
+    reducer,
+    action,
+    expected,
+    description: 'has description'
+  })
 
   const spy = testSpy()
   tester(spy)
@@ -39,7 +46,12 @@ test('single parameter', t => {
 test('multiple parameter', t => {
   const expected = { name: 'Jane Doe', age: 35 }
   const action = actionCreator('Jane Doe', 35)
-  const tester = reducerTest(reducer, {}, action, expected, 'has description')
+  const tester = reducerTest({
+    reducer,
+    action,
+    expected,
+    description: 'has description'
+  })
 
   const spy = testSpy()
   tester(spy)

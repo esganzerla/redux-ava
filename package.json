@@ -5,15 +5,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sotojuan/redux-ava"
+    "url": "https://github.com/esganzerla/redux-ava"
   },
   "author": {
     "name": "Juan Soto",
     "email": "juan@juansoto.me",
     "url": "juansoto.me"
-  },
-  "engines": {
-    "node": ">=4.2.0"
   },
   "scripts": {
     "test": "standard --verbose | snazzy && ava --verbose"
@@ -42,6 +39,13 @@
     "ignore": [
       "test.js",
       "test/**"
+    ]
+  },
+  "ava": {
+    "files": [
+      "test-*.js",
+      "**/__tests__/**/*.js",
+      "**/*.test.js"
     ]
   }
 }

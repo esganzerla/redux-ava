@@ -1,18 +1,13 @@
-const test = require('ava')
-const m = require('../../..')
-const actionTest = m.actionTest
-
-const utils = require('../_utils')
-const testSpy = utils.testSpy
-const testAction = utils.testAction
-const loadingAction = utils.loadingAction
-const actionCreatorWithThunk = utils.actionCreatorWithThunk
-const actionCreatorWithMultipleDispatches = utils.actionCreatorWithMultipleDispatches
+import test from 'ava'
+import testSpy from '../_utils/spy'
+import { actionTest } from '../../../'
+import { actionCreatorWithThunk, actionCreatorWithMultipleDispatches } from '../_utils/actions'
+import ActionTypes from '../_utils/constants'
 
 test('single dispatch', async t => {
-  const expected = [{ type: testAction, name: 'Jane Doe', age: 35 }]
-  const action = actionCreatorWithThunk
-  const tester = actionTest(action, 'Jane Doe', 35, expected)
+  const expected = [{ type: ActionTypes.testAction, name: 'Jane Doe', age: 35 }]
+  const action = actionCreatorWithThunk('Jane Doe', 35)
+  const tester = actionTest({ action, expected })
 
   const spy = testSpy()
   tester(spy).then(({ result }) => {
@@ -23,11 +18,11 @@ test('single dispatch', async t => {
 
 test('multiple dispatch', async t => {
   const expected = [
-    { type: loadingAction },
-    { type: testAction, name: 'Jane Doe', age: 35 }
+    { type: ActionTypes.loadingAction },
+    { type: ActionTypes.testAction, name: 'Jane Doe', age: 35 }
   ]
-  const action = actionCreatorWithMultipleDispatches
-  const tester = actionTest(action, 'Jane Doe', 35, expected)
+  const action = actionCreatorWithMultipleDispatches('Jane Doe', 35)
+  const tester = actionTest({ action, expected })
 
   const spy = testSpy()
   tester(spy).then(({ result }) => {
