@@ -8,7 +8,7 @@ const reducer = utils.reducer
 const testAction = utils.testAction
 const actionCreator = utils.actionCreator
 
-test('with description', t => {
+test('with description', (t) => {
   const expected = { name: 'John Doe', age: 42 }
   const action = actionCreator()
   const tester = reducerTest(reducer, {}, action, expected, 'has description')
@@ -22,7 +22,7 @@ test('with description', t => {
   t.is(result.description, 'has description')
 })
 
-test('without description', t => {
+test('without description', (t) => {
   const expected = { name: 'John Doe', age: 42 }
   const action = actionCreator()
   const tester = reducerTest(reducer, {}, actionCreator(), expected)
